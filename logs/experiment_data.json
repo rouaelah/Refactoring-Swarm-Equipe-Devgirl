@@ -1,11 +1,27 @@
 [
-  {
-    "id": "9e82e9b0-9b43-4a78-af43-d5d5ef848a2f",
-    "timestamp": "2025-12-26T01:26:41.177789",
-    "agent": "System",
-    "model": "unknown",
-    "action": "STARTUP",
-    "details": "Target: ./sandbox",
-    "status": "INFO"
-  }
+    {
+        "id": "9e82e9b0-9b43-4a78-af43-d5d5ef848a2f",
+        "timestamp": "2025-12-26T01:26:41.177789",
+        "agent": "System",
+        "model": "unknown",
+        "action": "STARTUP",
+        "details": "Target: ./sandbox",
+        "status": "INFO"
+    },
+    {
+        "id": "f8594abd-b216-43fa-84f7-1e9baca93550",
+        "timestamp": "2026-01-06T01:10:56.499860",
+        "agent": "Auditor_Agent",
+        "model": "gemini-2.5-flash",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file_analyzed": "./sandbox\\bad_code.py",
+            "file_size_bytes": 0,
+            "lines_of_code": 1,
+            "input_prompt": "Tu es un expert Python senior. Analyse ce code source et identifie TOUS les problèmes.\n\nFICHIER: bad_code.py\nLIGNES: 1\n\nCODE À ANALYSER:\n```python\n\nANALYSE À EFFECTUER:\n\nBUGS & ERREURS:\n\nY a-t-il des erreurs de syntaxe?\n\nY a-t-il des erreurs de logique?\n\nY a-t-il des erreurs d'exécution potentielles (ex: division par zéro)?\n\nGestion des exceptions?\n\nQUALITÉ & STYLE:\n\nLe code suit-il PEP8?\n\nNoms de variables/fonctions clairs?\n\nIndentation correcte?\n\nLongueur des lignes (< 80 caractères)?\n\nDOCUMENTATION:\n\nY a-t-il des docstrings?\n\nCommentaires pertinents?\n\nDocumentation manquante?\n\nSTRUCTURE:\n\nFonctions trop longues?\n\nCode dupliqué?\n\nComplexité cyclomatique élevée?\n\nPERFORMANCE & SÉCURITÉ:\n\nOptimisations possibles?\n\nProblèmes de sécurité (ex: injection)?\n\nFORMAT DE RÉPONSE OBLIGATOIRE:\n\n[LIGNE X] [CATÉGORIE] Description concise du problème\n→ Suggestion: correction spécifique et concrète\n\nCATÉGORIES: BUG, STYLE, DOCUMENTATION, STRUCTURE, PERFORMANCE, SECURITY\n\nEXEMPLE:\n\n[LIGNE 5] [BUG] Division par zéro possible\n→ Suggestion: Ajouter vérification: if b == 0: return None ou raise ValueError\n\nTon analyse doit être précise, technique et actionable.",
+            "output_response": "Analyse complète de bad_code.py:\n\n- [LIGNE 1] [DOCUMENTATION] Pas de docstring pour le module\n  → Suggestion: Ajouter \"\"Module avec des fonctions de calcul\"\" en début de fichier\n\n- [LIGNE 5] [BUG] Division par zéro possible sans vérification\n  → Suggestion: if b == 0: raise ValueError(\"Division par zéro interdite\")\n\n- [LIGNE 8] [STYLE] Noms de variables trop courts ('x', 'y')\n  → Suggestion: Remplacer par 'dividend', 'divisor'\n\n- [LIGNE 12] [STRUCTURE] Fonction trop longue (15 lignes)\n  → Suggestion: Diviser en sous-fonctions de max 10 lignes\n\nRÉSUMÉ:\n• Bugs critiques: 1\n• Problèmes de style: 2  \n• Documentation manquante: 1\n• TOTAL PROBLÈMES: 4",
+            "simulation_mode": true
+        },
+        "status": "SUCCESS"
+    }
 ]
