@@ -3,7 +3,19 @@ import os
 import sys
 import pytest
 from pathlib import Path
-from security import (
+
+# Ensure the project root is on sys.path so `import src...` works.
+ROOT = Path(__file__).resolve().parents[2]  # repo root
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+# Also add src directly as a fallback
+SRC = ROOT / "src"
+if SRC.exists() and str(SRC) not in sys.path:
+    sys.path.insert(0, str(SRC))
+
+
+
+from src.tools.security import (
     is_within_sandbox,
     validate_sandbox_path,
     sanitize_filename,
