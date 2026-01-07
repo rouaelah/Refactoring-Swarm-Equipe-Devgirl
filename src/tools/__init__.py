@@ -21,6 +21,13 @@ from .file_ops import (
     initialize_sandbox,
 )
 
+from .analysis import (
+    AnalysisError,
+    run_pylint_analysis,
+    analyze_directory,
+    compare_code_quality,
+)
+
 __all__ = [
     # Security
     'SecurityError',
@@ -38,4 +45,10 @@ __all__ = [
     'safe_read_json',
     'safe_write_json',
     'initialize_sandbox',
+
+    # Analysis
+    'AnalysisError',
+    'run_pylint_analysis',
+    'analyze_directory',
+    'compare_code_quality',
 ]
