@@ -21,11 +21,16 @@ from .file_ops import (
     initialize_sandbox,
 )
 
-from .analysis import (
-    AnalysisError,
-    run_pylint_analysis,
-    analyze_directory,
-    compare_code_quality,
+from .testing import (
+    TestingError,
+    TestTimeoutError,
+    run_pytest_on_file,
+    discover_test_files,
+    run_tests_in_directory,
+    validate_test_code,
+    execute_dynamic_tests,           
+    generate_and_execute_tests,      
+    benchmark_test_performance,      
 )
 
 __all__ = [
@@ -46,9 +51,14 @@ __all__ = [
     'safe_write_json',
     'initialize_sandbox',
 
-    # Analysis
-    'AnalysisError',
-    'run_pylint_analysis',
-    'analyze_directory',
-    'compare_code_quality',
+    # Testing
+    'TestingError',
+    'TestTimeoutError',
+    'run_pytest_on_file',
+    'discover_test_files', 
+    'run_tests_in_directory',
+    'validate_test_code',
+    'execute_dynamic_tests',
+    'generate_and_execute_tests',
+    'benchmark_test_performance',
 ]
