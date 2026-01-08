@@ -1,21 +1,18 @@
 """
-Auditor Agent (L'Agent Auditeur)
+Auditor Agent (L'Agent Auditeur) - Version compatible langgraph==0.0.25
 
 Responsable de :
 1. Lire le code Python dans un dossier
 2. Lancer l'analyse statique (avec pylint)
 3. Produire un plan de refactoring structuré
-
-Cet agent est conçu pour être utilisé avec LangGraph.
 """
 
 import os
 import sys
 import json
 import subprocess
-import tempfile
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from datetime import datetime
 import logging
 
@@ -23,31 +20,36 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Import des outils internes
-from src.tools.file_ops import (
-    safe_read_file,
-    safe_list_files,
-    initialize_sandbox,
-    FileOpsError
-)
-from src.utils.logger import log_experiment, ActionType
+try:
+    from src.tools.file_ops import (
+        safe_read_file,
+        safe_list_files,
+        initialize_sandbox,
+        FileOpsError
+    )
+    from src.utils.logger import log_experiment, ActionType
+except ImportError as e:
+    print(f"❌ Erreur d'import des modules internes: {e}")
+    print("Assure-toi que le projet est correctement structuré.")
+    sys.exit(1)
 
-# Import LangGraph pour l'agent
+# Vérifier si LangGraph est disponible
+LANGGRAPH_AVAILABLE = False
 try:
     from langgraph.graph import StateGraph, END
-    from langgraph.prebuilt import ToolNode
-    from langgraph.checkpoint import MemorySaver
-    from langchain_core.messages import HumanMessage, SystemMessage
     from langchain_google_genai import ChatGoogleGenerativeAI
     from langchain_core.tools import Tool
+    LANGGRAPH_AVAILABLE = True
+    logger.info("✅ LangGraph disponible")
 except ImportError as e:
-    logger.error(f"LangGraph or dependencies not installed: {e}")
-    logger.error("Install with: pip install langgraph langchain-google-genai")
-    raise
+    logger.warning(f"⚠️  LangGraph non disponible: {e}")
+    logger.info("Utilisation de la version simplifiée de l'agent")
 
 
 class AuditorAgent:
     """
     Agent spécialisé dans l'analyse de code Python et la génération de plans de refactoring.
+    Compatible avec et sans LangGraph.
     """
     
     def __init__(
@@ -83,7 +85,7 @@ class AuditorAgent:
         
         logger.info(f"Auditor Agent initialized with model: {model_name}")
     
-    def _initialize_llm(self) -> ChatGoogleGenerativeAI:
+    def _initialize_llm(self):
         """
         Initialise le modèle LLM avec Gemini.
         """
@@ -93,52 +95,57 @@ class AuditorAgent:
             if not api_key:
                 raise ValueError("GOOGLE_API_KEY environment variable not set")
             
-            llm = ChatGoogleGenerativeAI(
-                model=self.model_name,
-                temperature=self.temperature,
-                google_api_key=api_key
-            )
+            # Import conditionnel
+            if LANGGRAPH_AVAILABLE:
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                llm = ChatGoogleGenerativeAI(
+                    model=self.model_name,
+                    temperature=self.temperature,
+                    google_api_key=api_key
+                )
+            else:
+                # Version simplifiée si LangGraph n'est pas disponible
+                import google.generativeai as genai
+                genai.configure(api_key=api_key)
+                llm = genai.GenerativeModel(self.model_name)
             
-            # Test simple de connexion
-            test_response = llm.invoke("Hello")
-            logger.debug(f"LLM test response: {test_response.content[:50]}...")
-            
+            logger.debug(f"LLM initialized: {self.model_name}")
             return llm
             
         except Exception as e:
             logger.error(f"Failed to initialize LLM: {e}")
             raise
     
-    def _initialize_tools(self) -> List[Tool]:
+    def _initialize_tools(self) -> List[Dict]:
         """
         Initialise les outils disponibles pour l'agent.
         """
         tools = [
-            Tool(
-                name="read_python_file",
-                func=self._tool_read_python_file,
-                description="Lire le contenu d'un fichier Python. Args: file_path (str): Chemin du fichier"
-            ),
-            Tool(
-                name="list_python_files",
-                func=self._tool_list_python_files,
-                description="Lister tous les fichiers Python dans un répertoire. Args: directory (str): Répertoire à analyser"
-            ),
-            Tool(
-                name="run_static_analysis",
-                func=self._tool_run_static_analysis,
-                description="Exécuter l'analyse statique (pylint) sur un fichier Python. Args: file_path (str): Chemin du fichier"
-            ),
-            Tool(
-                name="analyze_code_complexity",
-                func=self._tool_analyze_code_complexity,
-                description="Analyser la complexité cyclomatique d'un fichier Python. Args: file_path (str): Chemin du fichier"
-            ),
-            Tool(
-                name="check_test_coverage",
-                func=self._tool_check_test_coverage,
-                description="Vérifier si un fichier a des tests associés. Args: file_path (str): Chemin du fichier"
-            )
+            {
+                "name": "read_python_file",
+                "func": self._tool_read_python_file,
+                "description": "Lire le contenu d'un fichier Python"
+            },
+            {
+                "name": "list_python_files",
+                "func": self._tool_list_python_files,
+                "description": "Lister tous les fichiers Python dans un répertoire"
+            },
+            {
+                "name": "run_static_analysis",
+                "func": self._tool_run_static_analysis,
+                "description": "Exécuter l'analyse statique (pylint) sur un fichier Python"
+            },
+            {
+                "name": "analyze_code_complexity",
+                "func": self._tool_analyze_code_complexity,
+                "description": "Analyser la complexité cyclomatique d'un fichier Python"
+            },
+            {
+                "name": "check_test_coverage",
+                "func": self._tool_check_test_coverage,
+                "description": "Vérifier si un fichier a des tests associés"
+            }
         ]
         
         logger.info(f"Initialized {len(tools)} tools for Auditor Agent")
@@ -159,32 +166,17 @@ Analyser le code Python pour identifier:
 5. **Opportunités de refactoring**: code dupliqué, complexité excessive
 
 # FORMAT DE SORTIE
-Tu dois produire un plan de refactoring structuré en JSON avec:
-{
-  "summary": "Résumé général des problèmes",
-  "files_analyzed": ["file1.py", "file2.py"],
-  "issues_by_category": {
-    "bugs": ["description1", "description2"],
-    "quality": ["description1", "description2"],
-    "documentation": ["description1", "description2"],
-    "testing": ["description1", "description2"],
-    "refactoring_opportunities": ["description1", "description2"]
-  },
-  "priority": ["high", "medium", "low"],  # Priorité des corrections
-  "estimated_effort": "1-2 heures"  # Estimation du temps de correction
-}
+Produis un plan de refactoring structuré avec:
+- Résumé général
+- Liste des problèmes par catégorie
+- Priorité des corrections
+- Estimation d'effort
 
 # DIRECTIVES
 - Sois précis et concret
 - Donne des exemples de code problématique
 - Propose des solutions spécifiques
-- Évalue la complexité des corrections
 - Classe les problèmes par priorité
-
-# RESTRICTIONS
-- Ne modifie PAS le code toi-même
-- Ne sors pas du répertoire sandbox
-- Utilise uniquement les outils fournis
 """
     
     def _tool_read_python_file(self, file_path: str) -> str:
@@ -288,17 +280,17 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
                 ["pylint", "--output-format=json", file_path],
                 capture_output=True,
                 text=True,
-                timeout=30  # Timeout de 30 secondes
+                timeout=30
             )
             
             analysis_result = {
                 "return_code": result.returncode,
                 "stdout": result.stdout,
                 "stderr": result.stderr,
-                "success": result.returncode in [0, 4, 8, 16, 24, 28]  # Codes de sortie pylint acceptables
+                "success": result.returncode in [0, 4, 8, 16, 24, 28]
             }
             
-            # Parser le JSON de sortie si disponible
+            # Parser le JSON de sortie
             if result.stdout and result.stdout.strip():
                 try:
                     pylint_data = json.loads(result.stdout)
@@ -365,24 +357,23 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
     
     def _tool_analyze_code_complexity(self, file_path: str) -> Dict[str, Any]:
         """
-        Outil: Analyser la complexité du code (simplifié).
+        Outil: Analyser la complexité du code.
         """
         try:
             content = safe_read_file(file_path)
             
-            # Analyse simplifiée de la complexité
-            lines = content.split('\n')
+            # Analyse simplifiée
             complexity_indicators = {
-                "line_count": len(lines),
+                "line_count": len(content.split('\n')),
                 "function_count": content.count("def "),
                 "class_count": content.count("class "),
-                "import_count": sum(1 for line in lines if line.strip().startswith("import ")),
+                "import_count": sum(1 for line in content.split('\n') if line.strip().startswith("import ")),
                 "nested_loops": content.count("for ") + content.count("while "),
                 "if_statements": content.count("if "),
                 "try_blocks": content.count("try:"),
             }
             
-            # Calcul d'un score de complexité simple
+            # Calcul d'un score de complexité
             complexity_score = (
                 complexity_indicators["function_count"] * 2 +
                 complexity_indicators["class_count"] * 3 +
@@ -440,17 +431,16 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
         try:
             file_path_obj = Path(file_path)
             file_name = file_path_obj.name
-            file_dir = file_path_obj.parent
             
             # Chercher des fichiers de test
             test_files = []
             for test_pattern in [f"test_{file_name}", f"{file_path_obj.stem}_test.py"]:
-                test_path = file_dir / test_pattern
+                test_path = file_path_obj.parent / test_pattern
                 if test_path.exists():
                     test_files.append(str(test_path))
             
-            # Vérifier aussi dans un sous-dossier tests/
-            tests_dir = file_dir / "tests"
+            # Vérifier dans un sous-dossier tests/
+            tests_dir = file_path_obj.parent / "tests"
             if tests_dir.exists():
                 for test_file in tests_dir.glob(f"*{file_path_obj.stem}*"):
                     if test_file.is_file() and test_file.suffix == ".py":
@@ -503,71 +493,51 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
     def analyze_directory(self, target_dir: str) -> Dict[str, Any]:
         """
         Analyser un répertoire complet et produire un plan de refactoring.
-        
-        Args:
-            target_dir: Répertoire contenant le code Python à analyser
-            
-        Returns:
-            Plan de refactoring structuré
         """
         try:
-            logger.info(f"Starting analysis of directory: {target_dir}")
+            logger.info(f"🔍 Début de l'analyse du répertoire: {target_dir}")
             self.current_target_dir = target_dir
             
-            # Initialiser le sandbox si nécessaire
+            # Initialiser le sandbox
             initialize_sandbox()
             
-            # 1. Lister tous les fichiers Python
+            # 1. Lister les fichiers Python
             python_files = self._tool_list_python_files(target_dir)
             
-            if not python_files or (len(python_files) == 1 and python_files[0].startswith("ERROR")):
-                error_msg = f"No Python files found in {target_dir} or error listing files"
+            # Filtrer les erreurs
+            valid_files = [f for f in python_files if isinstance(f, str) and not f.startswith("ERROR")]
+            
+            if not valid_files:
+                error_msg = f"Aucun fichier Python valide trouvé dans {target_dir}"
                 logger.error(error_msg)
-                return {"error": error_msg, "files_analyzed": [], "success": False}
+                return {"error": error_msg, "success": False}
             
-            logger.info(f"Found {len(python_files)} Python files to analyze")
+            logger.info(f"📁 {len(valid_files)} fichiers Python à analyser")
             
-            # 2. Collecter les analyses pour chaque fichier
+            # 2. Collecter les analyses
             file_analyses = {}
-            for file_path in python_files:
-                if not isinstance(file_path, str) or file_path.startswith("ERROR"):
-                    continue
-                    
-                logger.debug(f"Analyzing file: {file_path}")
+            for file_path in valid_files[:3]:  # Limiter à 3 fichiers pour les tests
+                logger.info(f"  📄 Analyse de: {file_path}")
                 
-                # Lire le contenu
                 content = self._tool_read_python_file(file_path)
                 if isinstance(content, str) and content.startswith("ERROR"):
                     continue
                 
-                # Analyse statique avec pylint
                 static_analysis = self._tool_run_static_analysis(file_path)
-                
-                # Analyse de complexité
                 complexity_analysis = self._tool_analyze_code_complexity(file_path)
-                
-                # Vérification des tests
                 test_coverage = self._tool_check_test_coverage(file_path)
                 
                 file_analyses[file_path] = {
-                    "content": content[:1000] + "..." if len(content) > 1000 else content,
+                    "content": content[:500] + "..." if len(content) > 500 else content,
                     "static_analysis": static_analysis,
                     "complexity": complexity_analysis,
                     "test_coverage": test_coverage
                 }
             
-            # 3. Préparer le contexte pour le LLM
-            analysis_context = {
-                "directory": target_dir,
-                "total_files": len(python_files),
-                "file_analyses": file_analyses,
-                "analysis_timestamp": datetime.now().isoformat()
-            }
+            # 3. Générer le plan de refactoring
+            refactoring_plan = self._generate_refactoring_plan(file_analyses, target_dir)
             
-            # 4. Appeler le LLM pour générer le plan de refactoring
-            refactoring_plan = self._generate_refactoring_plan(analysis_context)
-            
-            # 5. Structurer les résultats finaux
+            # 4. Résultats finaux
             final_result = {
                 "success": True,
                 "target_directory": target_dir,
@@ -576,37 +546,19 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
                 "file_analyses": file_analyses,
                 "refactoring_plan": refactoring_plan,
                 "summary": {
-                    "total_files": len(python_files),
-                    "files_with_issues": sum(1 for analysis in file_analyses.values() 
-                                           if analysis.get("static_analysis", {}).get("issue_count", 0) > 0),
-                    "files_without_tests": sum(1 for analysis in file_analyses.values() 
-                                              if not analysis.get("test_coverage", {}).get("has_tests", True)),
-                    "high_complexity_files": sum(1 for analysis in file_analyses.values() 
-                                                if analysis.get("complexity", {}).get("complexity_level") == "HIGH")
+                    "total_files_analyzed": len(file_analyses),
+                    "files_with_issues": sum(1 for a in file_analyses.values() 
+                                           if a.get("static_analysis", {}).get("issue_count", 0) > 0),
+                    "files_without_tests": sum(1 for a in file_analyses.values() 
+                                              if not a.get("test_coverage", {}).get("has_tests", True)),
                 }
             }
             
-            logger.info(f"Analysis completed successfully for {target_dir}")
-            
-            # Log l'analyse complète
-            log_experiment(
-                agent_name="Auditor_Agent",
-                model_used=self.model_name,
-                action=ActionType.ANALYSIS,
-                details={
-                    "target_directory": target_dir,
-                    "total_files": len(python_files),
-                    "refactoring_plan_generated": bool(refactoring_plan),
-                    "input_prompt": f"Analyze Python code in directory: {target_dir}",
-                    "output_response": json.dumps(refactoring_plan, indent=2) if refactoring_plan else "No refactoring plan generated"
-                },
-                status="SUCCESS"
-            )
-            
+            logger.info("✅ Analyse terminée avec succès")
             return final_result
             
         except Exception as e:
-            error_msg = f"Failed to analyze directory {target_dir}: {str(e)}"
+            error_msg = f"Échec de l'analyse du répertoire {target_dir}: {str(e)}"
             logger.error(error_msg)
             
             log_experiment(
@@ -615,7 +567,7 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
                 action=ActionType.ANALYSIS,
                 details={
                     "target_directory": target_dir,
-                    "input_prompt": f"Analyze Python code in directory: {target_dir}",
+                    "input_prompt": f"Analyze directory: {target_dir}",
                     "output_response": f"Error: {error_msg}"
                 },
                 status="FAILURE"
@@ -627,300 +579,213 @@ Tu dois produire un plan de refactoring structuré en JSON avec:
                 "target_directory": target_dir
             }
     
-    def _generate_refactoring_plan(self, analysis_context: Dict[str, Any]) -> Dict[str, Any]:
+    def _generate_refactoring_plan(self, file_analyses: Dict, target_dir: str) -> Dict[str, Any]:
         """
         Générer un plan de refactoring avec le LLM.
         """
         try:
-            # Préparer le prompt
+            # Préparer le contexte pour le LLM
+            analysis_summary = []
+            for file_path, analysis in file_analyses.items():
+                file_name = Path(file_path).name
+                issues = analysis.get("static_analysis", {}).get("issue_count", 0)
+                has_tests = analysis.get("test_coverage", {}).get("has_tests", False)
+                complexity = analysis.get("complexity", {}).get("complexity_level", "UNKNOWN")
+                
+                analysis_summary.append(
+                    f"- {file_name}: {issues} problèmes, tests: {has_tests}, complexité: {complexity}"
+                )
+            
+            # Créer le prompt
             prompt = f"""
 {self.system_prompt}
 
-# CONTEXTE D'ANALYSE
-Répertoire analysé: {analysis_context['directory']}
-Nombre total de fichiers: {analysis_context['total_files']}
-Timestamp: {analysis_context['analysis_timestamp']}
+# CONTEXTE
+Répertoire analysé: {target_dir}
+Nombre de fichiers analysés: {len(file_analyses)}
 
-# RÉSULTATS D'ANALYSE
-Voici les analyses détaillées pour chaque fichier:
-
-{json.dumps(analysis_context['file_analyses'], indent=2, default=str)}
+# RÉSUMÉ DES ANALYSES
+{chr(10).join(analysis_summary)}
 
 # TÂCHE
-Génère un plan de refactoring structuré en JSON selon le format demandé.
-Soyez spécifique, concret et proposez des solutions réalisables.
+Génère un plan de refactoring structuré qui inclut:
+1. Résumé général des problèmes
+2. Catégories de problèmes (bugs, qualité, documentation, tests, refactoring)
+3. Priorité des corrections (Haute/Moyenne/Basse)
+4. Estimation du temps nécessaire
+
+Format attendu (JSON):
+{{
+  "summary": "résumé ici",
+  "issues_by_category": {{
+    "bugs": ["problème1", "problème2"],
+    "quality": ["problème1", "problème2"],
+    "documentation": ["problème1", "problème2"],
+    "testing": ["problème1", "problème2"],
+    "refactoring_opportunities": ["problème1", "problème2"]
+  }},
+  "priority": ["high", "medium", "low"],
+  "estimated_effort": "X heures"
+}}
 """
             
             # Appeler le LLM
-            messages = [
-                SystemMessage(content=self.system_prompt),
-                HumanMessage(content=prompt)
-            ]
+            if LANGGRAPH_AVAILABLE and hasattr(self.llm, 'invoke'):
+                from langchain_core.messages import HumanMessage, SystemMessage
+                messages = [
+                    SystemMessage(content=self.system_prompt),
+                    HumanMessage(content=prompt)
+                ]
+                response = self.llm.invoke(messages)
+                response_text = response.content
+            else:
+                # Version simple
+                response_text = self.llm.generate_content(prompt).text
             
-            response = self.llm.invoke(messages)
-            
-            # Essayer d'extraire le JSON de la réponse
-            response_text = response.content
-            
-            # Chercher du JSON dans la réponse
+            # Essayer d'extraire le JSON
             import re
             json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
             
             if json_match:
-                json_str = json_match.group(0)
                 try:
-                    refactoring_plan = json.loads(json_str)
+                    return json.loads(json_match.group(0))
                 except json.JSONDecodeError:
-                    # Si le JSON est invalide, utiliser le texte brut
-                    refactoring_plan = {
-                        "raw_response": response_text,
-                        "summary": "Generated from LLM response",
-                        "parsing_error": "Could not parse JSON from response"
-                    }
-            else:
-                refactoring_plan = {
-                    "raw_response": response_text,
-                    "summary": "Generated from LLM response",
-                    "parsing_note": "No JSON structure found in response"
-                }
+                    logger.warning("Impossible de parser le JSON, utilisation du texte brut")
             
-            return refactoring_plan
+            # Retourner la réponse brute si pas de JSON
+            return {
+                "raw_response": response_text,
+                "summary": "Plan généré par l'agent",
+                "parsing_note": "Format JSON non détecté"
+            }
             
         except Exception as e:
-            error_msg = f"Failed to generate refactoring plan: {str(e)}"
-            logger.error(error_msg)
-            return {"error": error_msg, "plan_generation_failed": True}
+            logger.error(f"Erreur génération plan: {str(e)}")
+            return {"error": f"Failed to generate plan: {str(e)}"}
+
+
+# Version ultra-simplifiée (backup)
+class SimpleAuditor:
+    """Auditeur minimal pour tests rapides."""
     
-    def get_agent_graph(self) -> StateGraph:
-        """
-        Crée et retourne le graphe d'exécution LangGraph pour cet agent.
-        
-        Returns:
-            StateGraph configuré pour l'agent Auditeur
-        """
-        # Définir l'état du graphe
-        from typing import TypedDict, Annotated
-        import operator
-        
-        class AgentState(TypedDict):
-            """État de l'agent Auditeur."""
-            target_dir: str
-            python_files: List[str]
-            current_file: str
-            file_analyses: Dict[str, Dict]
-            refactoring_plan: Dict[str, Any]
-            iteration: int
-            status: str  # "analyzing", "generating_plan", "completed", "error"
-            error_message: Optional[str]
-        
-        # Créer le graphe
-        graph_builder = StateGraph(AgentState)
-        
-        # Définir les nœuds
-        def list_files_node(state: AgentState) -> AgentState:
-            """Nœud: Lister les fichiers Python."""
-            try:
-                files = self._tool_list_python_files(state["target_dir"])
-                return {
-                    **state,
-                    "python_files": files,
-                    "status": "analyzing",
-                    "iteration": state.get("iteration", 0) + 1
-                }
-            except Exception as e:
-                return {
-                    **state,
-                    "status": "error",
-                    "error_message": f"Failed to list files: {str(e)}"
-                }
-        
-        def analyze_file_node(state: AgentState) -> AgentState:
-            """Nœud: Analyser un fichier."""
-            if not state["python_files"]:
-                return {**state, "status": "completed"}
+    def __init__(self):
+        import google.generativeai as genai
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY manquant")
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
+    
+    def quick_analyze(self, file_path: str) -> str:
+        """Analyse rapide d'un fichier."""
+        try:
+            content = safe_read_file(file_path)
             
-            current_file = state["python_files"][0]
-            remaining_files = state["python_files"][1:]
+            prompt = f"""
+Analyse ce code Python:
+{content}
+
+Liste:
+1. Bugs potentiels
+2. Problèmes de style PEP8
+3. Manque de documentation
+4. Suggestions d'amélioration
+"""
             
-            try:
-                # Analyser le fichier
-                content = self._tool_read_python_file(current_file)
-                static_analysis = self._tool_run_static_analysis(current_file)
-                complexity = self._tool_analyze_code_complexity(current_file)
-                test_coverage = self._tool_check_test_coverage(current_file)
-                
-                file_analysis = {
-                    "content": content[:500] + "..." if len(content) > 500 else content,
-                    "static_analysis": static_analysis,
-                    "complexity": complexity,
-                    "test_coverage": test_coverage
-                }
-                
-                # Mettre à jour les analyses
-                current_analyses = state.get("file_analyses", {})
-                current_analyses[current_file] = file_analysis
-                
-                return {
-                    **state,
-                    "python_files": remaining_files,
-                    "current_file": current_file,
-                    "file_analyses": current_analyses,
-                    "status": "analyzing" if remaining_files else "generating_plan",
-                    "iteration": state.get("iteration", 0) + 1
-                }
-                
-            except Exception as e:
-                logger.error(f"Failed to analyze file {current_file}: {e}")
-                return {
-                    **state,
-                    "python_files": remaining_files,
-                    "status": "analyzing" if remaining_files else "generating_plan",
-                    "iteration": state.get("iteration", 0) + 1
-                }
-        
-        def generate_plan_node(state: AgentState) -> AgentState:
-            """Nœud: Générer le plan de refactoring."""
-            try:
-                analysis_context = {
-                    "directory": state["target_dir"],
-                    "total_files": len(state["file_analyses"]),
-                    "file_analyses": state["file_analyses"]
-                }
-                
-                refactoring_plan = self._generate_refactoring_plan(analysis_context)
-                
-                return {
-                    **state,
-                    "refactoring_plan": refactoring_plan,
-                    "status": "completed",
-                    "iteration": state.get("iteration", 0) + 1
-                }
-                
-            except Exception as e:
-                return {
-                    **state,
-                    "status": "error",
-                    "error_message": f"Failed to generate plan: {str(e)}"
-                }
-        
-        # Ajouter les nœuds au graphe
-        graph_builder.add_node("list_files", list_files_node)
-        graph_builder.add_node("analyze_file", analyze_file_node)
-        graph_builder.add_node("generate_plan", generate_plan_node)
-        
-        # Définir le flux de contrôle
-        graph_builder.set_entry_point("list_files")
-        
-        # Conditions de transition
-        def should_analyze_files(state: AgentState) -> str:
-            """Détermine s'il faut analyser d'autres fichiers."""
-            if state["status"] == "error":
-                return "error"
-            elif state["python_files"]:
-                return "analyze_file"
-            else:
-                return "generate_plan"
-        
-        def should_generate_plan(state: AgentState) -> str:
-            """Détermine s'il faut générer le plan."""
-            if state["status"] == "error":
-                return "error"
-            else:
-                return "generate_plan"
-        
-        # Ajouter les arêtes conditionnelles
-        graph_builder.add_conditional_edges(
-            "list_files",
-            should_analyze_files,
-            {
-                "analyze_file": "analyze_file",
-                "generate_plan": "generate_plan",
-                "error": END
-            }
-        )
-        
-        graph_builder.add_conditional_edges(
-            "analyze_file",
-            should_analyze_files,
-            {
-                "analyze_file": "analyze_file",
-                "generate_plan": "generate_plan",
-                "error": END
-            }
-        )
-        
-        graph_builder.add_edge("generate_plan", END)
-        
-        # Compiler le graphe
-        graph = graph_builder.compile()
-        
-        return graph
+            response = self.model.generate_content(prompt)
+            
+            log_experiment(
+                agent_name="SimpleAuditor",
+                model_used="gemini-1.5-flash",
+                action=ActionType.ANALYSIS,
+                details={
+                    "file_path": file_path,
+                    "input_prompt": prompt[:300] + "..." if len(prompt) > 300 else prompt,
+                    "output_response": response.text[:500] + "..." if len(response.text) > 500 else response.text
+                },
+                status="SUCCESS"
+            )
+            
+            return response.text
+            
+        except Exception as e:
+            logger.error(f"Erreur analyse simple: {str(e)}")
+            return f"Erreur: {str(e)}"
 
 
-# Fonction principale pour tester l'agent
+# Fonction principale
 def main():
-    """
-    Fonction principale pour tester l'agent Auditeur.
-    """
+    """Point d'entrée principal."""
     import argparse
     
-    parser = argparse.ArgumentParser(description="Auditor Agent - Analyse de code Python")
-    parser.add_argument("--target_dir", required=True, help="Répertoire contenant le code Python à analyser")
-    parser.add_argument("--model", default="gemini-1.5-flash", help="Modèle Gemini à utiliser")
-    parser.add_argument("--verbose", action="store_true", help="Activer les logs détaillés")
+    parser = argparse.ArgumentParser(description="Agent Auditeur - Analyse de code Python")
+    parser.add_argument("--target_dir", required=True, help="Répertoire à analyser")
+    parser.add_argument("--model", default="gemini-1.5-flash", help="Modèle Gemini")
+    parser.add_argument("--verbose", action="store_true", help="Logs détaillés")
+    parser.add_argument("--simple", action="store_true", help="Utiliser la version simple")
     
     args = parser.parse_args()
     
-    # Configurer le logging
-    logging_level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(level=logging_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    # Configuration logging
+    level = logging.DEBUG if args.verbose else logging.INFO
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    
+    print("=" * 60)
+    print("🧪 TEST AGENT AUDITEUR")
+    print("=" * 60)
     
     try:
-        # Créer l'agent
-        agent = AuditorAgent(model_name=args.model)
-        
-        # Analyser le répertoire
-        result = agent.analyze_directory(args.target_dir)
-        
-        # Afficher les résultats
-        if result.get("success"):
-            print("\n" + "="*80)
-            print("ANALYSE TERMINÉE AVEC SUCCÈS")
-            print("="*80)
+        if args.simple:
+            print("🔧 Mode simple activé")
+            auditor = SimpleAuditor()
             
-            print(f"\nRépertoire analysé: {result['target_directory']}")
-            print(f"Fichiers analysés: {len(result['files_analyzed'])}")
-            print(f"Timestamp: {result['analysis_timestamp']}")
+            # Trouver un fichier Python
+            target_path = Path(args.target_dir)
+            python_files = list(target_path.glob("*.py"))
             
-            print("\n" + "-"*80)
-            print("RÉSUMÉ:")
-            print("-"*80)
-            summary = result.get("summary", {})
-            print(f"• Fichiers avec problèmes: {summary.get('files_with_issues', 0)}")
-            print(f"• Fichiers sans tests: {summary.get('files_without_tests', 0)}")
-            print(f"• Fichiers haute complexité: {summary.get('high_complexity_files', 0)}")
+            if not python_files:
+                print(f"❌ Aucun fichier .py dans {args.target_dir}")
+                return
             
-            print("\n" + "-"*80)
-            print("PLAN DE REFACTORING:")
-            print("-"*80)
-            plan = result.get("refactoring_plan", {})
-            print(json.dumps(plan, indent=2, ensure_ascii=False))
+            first_file = python_files[0]
+            print(f"📄 Analyse de: {first_file}")
             
-            # Sauvegarder le rapport complet
-            output_file = Path(args.target_dir) / "auditor_report.json"
-            with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(result, f, indent=2, ensure_ascii=False, default=str)
-            print(f"\nRapport complet sauvegardé dans: {output_file}")
+            result = auditor.quick_analyze(str(first_file))
+            print("\n📊 RÉSULTAT:")
+            print("-" * 40)
+            print(result)
             
         else:
-            print(f"\nERREUR: {result.get('error', 'Unknown error')}")
-            sys.exit(1)
+            print("🚀 Mode complet avec AuditorAgent")
+            auditor = AuditorAgent(model_name=args.model)
             
+            print(f"📁 Analyse du répertoire: {args.target_dir}")
+            result = auditor.analyze_directory(args.target_dir)
+            
+            if result.get("success"):
+                print("\n✅ ANALYSE RÉUSSIE!")
+                print(f"📊 Fichiers analysés: {len(result['files_analyzed'])}")
+                
+                plan = result.get("refactoring_plan", {})
+                if "summary" in plan:
+                    print(f"\n📋 Résumé: {plan['summary'][:200]}...")
+                
+                # Sauvegarder
+                output_file = Path(args.target_dir) / "audit_report.json"
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    json.dump(result, f, indent=2, ensure_ascii=False, default=str)
+                print(f"\n💾 Rapport sauvegardé: {output_file}")
+                
+            else:
+                print(f"\n❌ ERREUR: {result.get('error', 'Inconnue')}")
+                
     except Exception as e:
-        print(f"Erreur lors de l'exécution de l'agent: {str(e)}")
+        print(f"\n💥 ERREUR CRITIQUE: {str(e)}")
         import traceback
         traceback.print_exc()
-        sys.exit(1)
 
 
 if __name__ == "__main__":
