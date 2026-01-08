@@ -21,6 +21,18 @@ from .file_ops import (
     initialize_sandbox,
 )
 
+from .testing import (
+    TestingError,
+    TestTimeoutError,
+    run_pytest_on_file,
+    discover_test_files,
+    run_tests_in_directory,
+    validate_test_code,
+    execute_dynamic_tests,           
+    generate_and_execute_tests,      
+    benchmark_test_performance,      
+)
+
 __all__ = [
     # Security
     'SecurityError',
@@ -38,4 +50,15 @@ __all__ = [
     'safe_read_json',
     'safe_write_json',
     'initialize_sandbox',
+
+    # Testing
+    'TestingError',
+    'TestTimeoutError',
+    'run_pytest_on_file',
+    'discover_test_files', 
+    'run_tests_in_directory',
+    'validate_test_code',
+    'execute_dynamic_tests',
+    'generate_and_execute_tests',
+    'benchmark_test_performance',
 ]
