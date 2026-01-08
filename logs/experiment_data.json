@@ -458,5 +458,771 @@
             "error": "Access denied. Path '/tmp/evil.py' is outside the sandbox directory. Sandbox: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox"
         },
         "status": "FAILURE"
+    },
+    {
+        "id": "ca9d51ad-f4df-4ebb-948f-91ecbef0dfdb",
+        "timestamp": "2026-01-07T22:35:29.222713",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:35:29.222649",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.225,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "07f45d54-b9ca-4580-b977-44ca91aeb388",
+        "timestamp": "2026-01-07T22:35:29.223923",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "score": 9.4,
+            "issue_counts": {
+                "error": 0,
+                "warning": 1,
+                "convention": 1,
+                "refactor": 0,
+                "fatal": 0,
+                "info": 0,
+                "total": 2
+            },
+            "duration_seconds": 0.002,
+            "input_prompt": "Analyze code quality of good_code.py",
+            "output_response": "Score: 9.4/10, Issues: 2"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "7c7539c8-e639-4818-a3e9-297a54a7bcc3",
+        "timestamp": "2026-01-07T22:35:29.228582",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "timestamp": "2026-01-07T22:35:29.228509",
+            "file_size": 241,
+            "encoding": "utf-8",
+            "duration_ms": 0.36900000000000005,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "output_response": "Successfully read 241 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "ebd012df-667e-41d5-b248-5dda930175e5",
+        "timestamp": "2026-01-07T22:35:29.230364",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "score": 0.0,
+            "issue_counts": {
+                "error": 1,
+                "total": 1
+            },
+            "duration_seconds": 0.0,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 0.0/10, Issues: 1",
+            "error": "Unexpected error: Pylint failed"
+        },
+        "status": "FAILURE"
+    },
+    {
+        "id": "3f19bf92-e787-4d60-b9ba-020437c1545b",
+        "timestamp": "2026-01-07T22:35:29.234813",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/etc/passwd",
+            "score": 0.0,
+            "issue_counts": {
+                "error": 1,
+                "total": 1
+            },
+            "duration_seconds": 0.0,
+            "input_prompt": "Analyze code quality of passwd",
+            "output_response": "Score: 0.0/10, Issues: 1",
+            "error": "Access denied. Path '/etc/passwd' is outside the sandbox directory. Sandbox: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox"
+        },
+        "status": "FAILURE"
+    },
+    {
+        "id": "7bf9115e-80fd-4dbb-9a97-6814e5d0b23e",
+        "timestamp": "2026-01-07T22:35:29.243567",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis",
+            "timestamp": "2026-01-07T22:35:29.243481",
+            "pattern": "*.py",
+            "recursive": false,
+            "file_count": 2,
+            "duration_ms": 0.624,
+            "input_prompt": "List files in: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "3375c612-b135-4d58-94a9-d9da98ee0d01",
+        "timestamp": "2026-01-07T22:35:29.249949",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/empty",
+            "timestamp": "2026-01-07T22:35:29.249805",
+            "pattern": "*.py",
+            "recursive": false,
+            "file_count": 0,
+            "duration_ms": 0.386,
+            "input_prompt": "List files in: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/empty",
+            "output_response": "Found 0 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "3f1d7878-b1e6-423b-9c6c-0e9f43e1a6ea",
+        "timestamp": "2026-01-07T22:35:29.261252",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:35:29.261146",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.392,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "6c4b5999-906c-4354-87ff-dccc20fe1545",
+        "timestamp": "2026-01-07T22:35:29.302291",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:35:29.302198",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.43600000000000005,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "3e6fb76c-4e94-424a-8720-ea5a6293d079",
+        "timestamp": "2026-01-07T22:35:33.131642",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "score": 8.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 2,
+                "convention": 2,
+                "refactor": 1,
+                "fatal": 0,
+                "info": 0,
+                "total": 5
+            },
+            "duration_seconds": 3.83,
+            "input_prompt": "Analyze code quality of good_code.py",
+            "output_response": "Score: 8.6/10, Issues: 5"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "ba490006-2a1f-4a85-9e9c-8eff899173cb",
+        "timestamp": "2026-01-07T22:48:48.085515",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:48:48.085401",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.524,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "da3da9cc-e42d-4d60-8808-19b7ae0c64a2",
+        "timestamp": "2026-01-07T22:48:48.089453",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "score": 9.4,
+            "issue_counts": {
+                "error": 0,
+                "warning": 1,
+                "convention": 1,
+                "refactor": 0,
+                "fatal": 0,
+                "info": 0,
+                "total": 2
+            },
+            "duration_seconds": 0.005,
+            "input_prompt": "Analyze code quality of good_code.py",
+            "output_response": "Score: 9.4/10, Issues: 2"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "aaf5b1ca-7203-4b1e-9e73-af40aa058d66",
+        "timestamp": "2026-01-07T22:48:48.100351",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "timestamp": "2026-01-07T22:48:48.100286",
+            "file_size": 241,
+            "encoding": "utf-8",
+            "duration_ms": 0.354,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "output_response": "Successfully read 241 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "59eaa5aa-493e-4b67-a46b-b1c352ba7823",
+        "timestamp": "2026-01-07T22:48:48.103473",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/bad_code.py",
+            "score": 0.0,
+            "issue_counts": {
+                "error": 1,
+                "total": 1
+            },
+            "duration_seconds": 0.0,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 0.0/10, Issues: 1",
+            "error": "Unexpected error: Pylint failed"
+        },
+        "status": "FAILURE"
+    },
+    {
+        "id": "eb903c4d-9900-40fe-9874-559cf179f620",
+        "timestamp": "2026-01-07T22:48:48.116067",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/etc/passwd",
+            "score": 0.0,
+            "issue_counts": {
+                "error": 1,
+                "total": 1
+            },
+            "duration_seconds": 0.0,
+            "input_prompt": "Analyze code quality of passwd",
+            "output_response": "Score: 0.0/10, Issues: 1",
+            "error": "Access denied. Path '/etc/passwd' is outside the sandbox directory. Sandbox: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox"
+        },
+        "status": "FAILURE"
+    },
+    {
+        "id": "8708d68d-e76d-4076-be62-3965bb6f3b4e",
+        "timestamp": "2026-01-07T22:48:48.125001",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis",
+            "timestamp": "2026-01-07T22:48:48.124900",
+            "pattern": "*.py",
+            "recursive": false,
+            "file_count": 2,
+            "duration_ms": 1.0150000000000001,
+            "input_prompt": "List files in: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "59c983ca-227c-459c-b209-eda423d6e0a9",
+        "timestamp": "2026-01-07T22:48:48.144623",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/empty",
+            "timestamp": "2026-01-07T22:48:48.144533",
+            "pattern": "*.py",
+            "recursive": false,
+            "file_count": 0,
+            "duration_ms": 0.388,
+            "input_prompt": "List files in: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/empty",
+            "output_response": "Found 0 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "24ba6fbc-84b9-4333-9c72-3d0fa8c602ee",
+        "timestamp": "2026-01-07T22:48:48.161794",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:48:48.161683",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.46099999999999997,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c0e01543-bc25-4986-bf89-ad6700ea184e",
+        "timestamp": "2026-01-07T22:48:48.170486",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "timestamp": "2026-01-07T22:48:48.170400",
+            "file_size": 423,
+            "encoding": "utf-8",
+            "duration_ms": 0.416,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "output_response": "Successfully read 423 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "3852429f-5e4e-42af-b6dd-8fe04bb7ffba",
+        "timestamp": "2026-01-07T22:48:49.550957",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/test_analysis/good_code.py",
+            "score": 8.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 2,
+                "convention": 2,
+                "refactor": 1,
+                "fatal": 0,
+                "info": 0,
+                "total": 5
+            },
+            "duration_seconds": 1.381,
+            "input_prompt": "Analyze code quality of good_code.py",
+            "output_response": "Score: 8.6/10, Issues: 5"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "de5d5e69-04cb-41b6-b577-ad9fb0edc166",
+        "timestamp": "2026-01-07T22:56:02.862893",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "write",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "timestamp": "2026-01-07T22:56:02.862822",
+            "file_size": 1621,
+            "encoding": "utf-8",
+            "overwrite": true,
+            "duration_ms": 0.388,
+            "input_prompt": "Write to file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "output_response": "Successfully wrote 1621 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "44d9563c-25fa-4668-80e1-2ab25157bfe8",
+        "timestamp": "2026-01-07T22:56:02.865316",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "write",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "timestamp": "2026-01-07T22:56:02.865249",
+            "file_size": 308,
+            "encoding": "utf-8",
+            "overwrite": true,
+            "duration_ms": 0.378,
+            "input_prompt": "Write to file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "output_response": "Successfully wrote 308 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "784b98e0-f292-42f4-88ff-2301c3548251",
+        "timestamp": "2026-01-07T22:56:02.867682",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "write",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "timestamp": "2026-01-07T22:56:02.867584",
+            "file_size": 823,
+            "encoding": "utf-8",
+            "overwrite": true,
+            "duration_ms": 0.5910000000000001,
+            "input_prompt": "Write to file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "output_response": "Successfully wrote 823 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c2019f02-5d28-459f-9a10-86951ffa1738",
+        "timestamp": "2026-01-07T22:56:02.871505",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "timestamp": "2026-01-07T22:56:02.871425",
+            "file_size": 1621,
+            "encoding": "utf-8",
+            "duration_ms": 0.28200000000000003,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "output_response": "Successfully read 1621 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "6599b99c-84bb-427e-b884-f0beb25d29f2",
+        "timestamp": "2026-01-07T22:56:04.580332",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "score": 9.3,
+            "issue_counts": {
+                "error": 0,
+                "warning": 0,
+                "convention": 7,
+                "refactor": 0,
+                "fatal": 0,
+                "info": 0,
+                "total": 7
+            },
+            "duration_seconds": 1.709,
+            "input_prompt": "Analyze code quality of good_example.py",
+            "output_response": "Score: 9.3/10, Issues: 7"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c20d1ef7-7333-4a3b-b1cc-42fa4c933ec4",
+        "timestamp": "2026-01-07T22:56:04.585642",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "timestamp": "2026-01-07T22:56:04.585540",
+            "file_size": 308,
+            "encoding": "utf-8",
+            "duration_ms": 0.462,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "output_response": "Successfully read 308 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "b75c7602-41eb-42b6-9744-9d2cab3451e0",
+        "timestamp": "2026-01-07T22:56:05.891127",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "score": 5.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 6,
+                "convention": 10,
+                "refactor": 2,
+                "fatal": 0,
+                "info": 0,
+                "total": 18
+            },
+            "duration_seconds": 1.306,
+            "input_prompt": "Analyze code quality of bad_example.py",
+            "output_response": "Score: 5.6/10, Issues: 18"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "7fdf531e-11c3-462a-bf48-e8ac56ed5004",
+        "timestamp": "2026-01-07T22:56:05.895704",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "timestamp": "2026-01-07T22:56:05.895626",
+            "file_size": 308,
+            "encoding": "utf-8",
+            "duration_ms": 0.28200000000000003,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "output_response": "Successfully read 308 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "48e16cbd-50e9-4932-8a20-76597145a5e7",
+        "timestamp": "2026-01-07T22:56:07.297824",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "score": 5.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 6,
+                "convention": 10,
+                "refactor": 2,
+                "fatal": 0,
+                "info": 0,
+                "total": 18
+            },
+            "duration_seconds": 1.403,
+            "input_prompt": "Analyze code quality of bad_example.py",
+            "output_response": "Score: 5.6/10, Issues: 18"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "4744fc6e-765d-41e8-ac6c-5ebc7f969597",
+        "timestamp": "2026-01-07T22:56:07.302626",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "timestamp": "2026-01-07T22:56:07.302558",
+            "file_size": 823,
+            "encoding": "utf-8",
+            "duration_ms": 0.28200000000000003,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "output_response": "Successfully read 823 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "4648308b-f989-4e9b-9174-1aed55c25a0c",
+        "timestamp": "2026-01-07T22:56:08.448045",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "score": 8.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 2,
+                "convention": 2,
+                "refactor": 1,
+                "fatal": 0,
+                "info": 0,
+                "total": 5
+            },
+            "duration_seconds": 1.146,
+            "input_prompt": "Analyze code quality of fixed_example.py",
+            "output_response": "Score: 8.6/10, Issues: 5"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "e548d1fc-86a5-4730-8dd2-2e5553f06fe4",
+        "timestamp": "2026-01-07T22:56:08.452861",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test",
+            "timestamp": "2026-01-07T22:56:08.452779",
+            "pattern": "*.py",
+            "recursive": false,
+            "file_count": 3,
+            "duration_ms": 0.455,
+            "input_prompt": "List files in: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test",
+            "output_response": "Found 3 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "cb1ce41a-91e6-4eb0-9026-d6ce4f03dde0",
+        "timestamp": "2026-01-07T22:56:08.456717",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "timestamp": "2026-01-07T22:56:08.456616",
+            "file_size": 1621,
+            "encoding": "utf-8",
+            "duration_ms": 0.285,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "output_response": "Successfully read 1621 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "1c45295b-e98b-4a96-8306-6476db0acf5f",
+        "timestamp": "2026-01-07T22:56:09.625929",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/good_example.py",
+            "score": 9.3,
+            "issue_counts": {
+                "error": 0,
+                "warning": 0,
+                "convention": 7,
+                "refactor": 0,
+                "fatal": 0,
+                "info": 0,
+                "total": 7
+            },
+            "duration_seconds": 1.17,
+            "input_prompt": "Analyze code quality of good_example.py",
+            "output_response": "Score: 9.3/10, Issues: 7"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "2cf762b1-68ee-49a4-825f-c15fdf933e89",
+        "timestamp": "2026-01-07T22:56:09.630726",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "timestamp": "2026-01-07T22:56:09.630659",
+            "file_size": 308,
+            "encoding": "utf-8",
+            "duration_ms": 0.324,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "output_response": "Successfully read 308 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "adbd8a77-11e5-4dbe-b0dc-a17098944325",
+        "timestamp": "2026-01-07T22:56:10.890726",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/bad_example.py",
+            "score": 5.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 6,
+                "convention": 10,
+                "refactor": 2,
+                "fatal": 0,
+                "info": 0,
+                "total": 18
+            },
+            "duration_seconds": 1.261,
+            "input_prompt": "Analyze code quality of bad_example.py",
+            "output_response": "Score: 5.6/10, Issues: 18"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "6646e773-94b6-4c10-af31-5de8ad823182",
+        "timestamp": "2026-01-07T22:56:10.895539",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "timestamp": "2026-01-07T22:56:10.895472",
+            "file_size": 823,
+            "encoding": "utf-8",
+            "duration_ms": 0.34299999999999997,
+            "input_prompt": "Read file: /home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "output_response": "Successfully read 823 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "a40288fa-185c-4b60-8ca3-d7e695616245",
+        "timestamp": "2026-01-07T22:56:12.108485",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "/home/islam_tb/Documents/TP IGL/Project/refactoring-swarm-template/sandbox/analysis_integration_test/fixed_example.py",
+            "score": 8.6,
+            "issue_counts": {
+                "error": 0,
+                "warning": 2,
+                "convention": 2,
+                "refactor": 1,
+                "fatal": 0,
+                "info": 0,
+                "total": 5
+            },
+            "duration_seconds": 1.214,
+            "input_prompt": "Analyze code quality of fixed_example.py",
+            "output_response": "Score: 8.6/10, Issues: 5"
+        },
+        "status": "SUCCESS"
     }
 ]
