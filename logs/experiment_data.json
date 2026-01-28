@@ -17694,5 +17694,370 @@
             "output_response": "Test results: Tests: 6 total, 6 passed, 0 failed, 0 skipped, 0 errors"
         },
         "status": "SUCCESS"
+    },
+    {
+        "id": "1625a37e-ef02-42af-a677-73cb973d59b0",
+        "timestamp": "2026-01-28T14:51:00.043583",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-01-28T14:51:00.043583",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 2,
+            "duration_ms": 3.6519999999999997,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "e268f309-6556-4c5c-8eec-618fee51db6b",
+        "timestamp": "2026-01-28T14:51:00.164834",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:51:00.163043",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 5.437,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "e2a1d6bf-ff2e-441b-9c3c-9b2326cbaa81",
+        "timestamp": "2026-01-28T14:51:00.348517",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:51:00.348517",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 3.032,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "be24f281-3375-4843-b329-571d04138864",
+        "timestamp": "2026-01-28T14:51:15.992953",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "score": 10.0,
+            "issue_counts": {
+                "total": 0
+            },
+            "duration_seconds": 15.649,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 10.0/10, Issues: 0"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c85f9655-e239-4835-bf91-b7a5d82ba79c",
+        "timestamp": "2026-01-28T14:57:03.851080",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-01-28T14:57:03.851080",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 2,
+            "duration_ms": 0.0,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "2e2d0a34-733f-40b4-895a-9de373819f7a",
+        "timestamp": "2026-01-28T14:57:03.989076",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:57:03.989076",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 2.884,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "37131511-5e6f-46c4-8318-90ff6912db5b",
+        "timestamp": "2026-01-28T14:57:04.102586",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:57:04.102586",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "dacf3544-f29e-4b24-bffa-d67f937a6596",
+        "timestamp": "2026-01-28T14:57:06.154141",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "score": 10.0,
+            "issue_counts": {
+                "total": 0
+            },
+            "duration_seconds": 2.049,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 10.0/10, Issues: 0"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "35f65f97-24fa-4d59-af1c-eb687fda885b",
+        "timestamp": "2026-01-28T14:58:39.741316",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-01-28T14:58:39.741316",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 2,
+            "duration_ms": 3.395,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "8d66c009-b3df-471c-88d5-ac2298ff3ffe",
+        "timestamp": "2026-01-28T14:58:39.890461",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:58:39.890461",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 3.003,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "fbd95a8e-ab71-4766-b250-151c0cf42edb",
+        "timestamp": "2026-01-28T14:58:40.136519",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T14:58:40.136519",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "bbb90087-7a15-410e-9b88-877701561810",
+        "timestamp": "2026-01-28T14:58:42.135352",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "score": 10.0,
+            "issue_counts": {
+                "total": 0
+            },
+            "duration_seconds": 2.003,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 10.0/10, Issues: 0"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "817732e6-50c4-4e89-a572-5e59f9df5091",
+        "timestamp": "2026-01-28T15:04:25.035382",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-01-28T15:04:25.035382",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 2,
+            "duration_ms": 0.0,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "159ffa24-7dd0-45d3-bfd1-f568d94789fc",
+        "timestamp": "2026-01-28T15:04:25.098033",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T15:04:25.098033",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c6af99b6-5fc4-44b1-9991-894f106ef542",
+        "timestamp": "2026-01-28T15:04:25.165960",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T15:04:25.165960",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c18c966c-c7e4-4212-842d-34a4b86e0e14",
+        "timestamp": "2026-01-28T15:04:26.202362",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "score": 10.0,
+            "issue_counts": {
+                "total": 0
+            },
+            "duration_seconds": 1.036,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 10.0/10, Issues: 0"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "26e7e550-b6b3-4561-8408-6b892d6a9890",
+        "timestamp": "2026-01-28T15:09:35.228161",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-01-28T15:09:35.228161",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 2,
+            "duration_ms": 0.0,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 2 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "d6fecb1e-9a04-4fe1-b035-97836216b513",
+        "timestamp": "2026-01-28T15:09:35.289750",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T15:09:35.289750",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 1.014,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "c8cbc573-bfbf-4747-b1e0-a5dd9623b229",
+        "timestamp": "2026-01-28T15:09:35.356846",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "timestamp": "2026-01-28T15:09:35.356846",
+            "file_size": 0,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "output_response": "Successfully read 0 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "269e45d1-d3e9-4f17-8295-910345eae0b5",
+        "timestamp": "2026-01-28T15:09:36.298335",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\bad_code.py",
+            "score": 10.0,
+            "issue_counts": {
+                "total": 0
+            },
+            "duration_seconds": 0.941,
+            "input_prompt": "Analyze code quality of bad_code.py",
+            "output_response": "Score: 10.0/10, Issues: 0"
+        },
+        "status": "SUCCESS"
     }
 ]
