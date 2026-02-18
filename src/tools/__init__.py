@@ -33,6 +33,10 @@ from .testing import (
     benchmark_test_performance,      
 )
 
+from .llm_client import get_llm_client, LangChainGeminiClient
+
+
+
 __all__ = [
     # Security
     'SecurityError',
@@ -61,4 +65,9 @@ __all__ = [
     'execute_dynamic_tests',
     'generate_and_execute_tests',
     'benchmark_test_performance',
+
+
+   # LLM Client
+    'get_llm_client',
+    'LangChainGeminiClient',
 ]
