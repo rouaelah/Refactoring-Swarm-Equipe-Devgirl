@@ -22458,5 +22458,112 @@
             "output_response": "ERREUR: API Error 404: models/gemini-1.5-flash is not found for API version v1, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods."
         },
         "status": "FAILURE"
+    },
+    {
+        "id": "c2be8da4-75ea-4e9b-9293-3797dfaab9d0",
+        "timestamp": "2026-02-18T22:14:21.175353",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test",
+            "timestamp": "2026-02-18T22:14:21.174234",
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test",
+            "output_response": "Error: Path is not a directory: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test",
+            "error": "Path is not a directory: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test"
+        },
+        "status": "FAILURE"
+    },
+    {
+        "id": "c306ac4b-70c1-4917-a4c2-e3411c3e4810",
+        "timestamp": "2026-02-18T22:16:07.528954",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "list_files",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "timestamp": "2026-02-18T22:16:07.528954",
+            "pattern": "*.py",
+            "recursive": true,
+            "file_count": 1,
+            "duration_ms": 2.883,
+            "input_prompt": "List files in: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code",
+            "output_response": "Found 1 files"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "a689043a-55a4-4c52-9663-c57f5620a435",
+        "timestamp": "2026-02-18T22:16:07.741529",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\calculatrice_sale.py",
+            "timestamp": "2026-02-18T22:16:07.741529",
+            "file_size": 776,
+            "encoding": "utf-8",
+            "duration_ms": 33.321999999999996,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\calculatrice_sale.py",
+            "output_response": "Successfully read 776 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "af58cc5b-d08d-4efa-86d6-2dc121993c97",
+        "timestamp": "2026-02-18T22:16:07.941793",
+        "agent": "Toolsmith",
+        "model": "Toolsmith",
+        "action": "DEBUG",
+        "details": {
+            "operation": "read",
+            "file_path": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\calculatrice_sale.py",
+            "timestamp": "2026-02-18T22:16:07.941793",
+            "file_size": 776,
+            "encoding": "utf-8",
+            "duration_ms": 0.0,
+            "input_prompt": "Read file: C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\calculatrice_sale.py",
+            "output_response": "Successfully read 776 characters"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "19ec52a5-af81-427a-ad6f-c455a86a795e",
+        "timestamp": "2026-02-18T22:16:11.732090",
+        "agent": "Toolsmith",
+        "model": "pylint",
+        "action": "CODE_ANALYSIS",
+        "details": {
+            "file": "C:\\Users\\Muhammad suleman\\Desktop\\refactoring-swarm-template\\sandbox\\test_code\\calculatrice_sale.py",
+            "score": 7.2,
+            "issue_counts": {
+                "error": 0,
+                "warning": 4,
+                "convention": 8,
+                "refactor": 0,
+                "fatal": 0,
+                "info": 0,
+                "total": 12
+            },
+            "duration_seconds": 3.79,
+            "input_prompt": "Analyze code quality of calculatrice_sale.py",
+            "output_response": "Score: 7.2/10, Issues: 12"
+        },
+        "status": "SUCCESS"
+    },
+    {
+        "id": "4730f184-89cf-4db8-976d-02f58e98d7d5",
+        "timestamp": "2026-02-18T22:16:36.633319",
+        "agent": "LLM_Client",
+        "model": "gemini-2.0-flash",
+        "action": "CODE_GEN",
+        "details": {
+            "input_prompt": "FICHIER: calculatrice_sale.py\nCONTENU:\nimport os\n\n# Mauvaise pratique : Variable globale non nécessaire\nresultat_global = 0\n\ndef Calculer(a,b, operation):\n    \"\"\"\n    Une fonction tres mal ecrite pour",
+            "output_response": "ERREUR: API Error 429: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. "
+        },
+        "status": "FAILURE"
     }
 ]
